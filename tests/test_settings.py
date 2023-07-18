@@ -8,7 +8,8 @@ from allianceauth.project_template.project_name.settings.base import *
 CELERY_ALWAYS_EAGER = True  # Forces celery to run locally for testing
 
 INSTALLED_APPS += [
-    'allianceauth_oidc'
+    'allianceauth_oidc',
+    'oauth2_provider'
 ]
 
 ROOT_URLCONF = 'tests.urls'
