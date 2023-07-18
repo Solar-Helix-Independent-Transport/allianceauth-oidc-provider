@@ -1,0 +1,10 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore all HTML files:
+*.html
+
+# ingnore assembled files
+allianceauth_oidc/static/*
+frontend/build/*
