@@ -20,22 +20,27 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import View
 
-log = logging.getLogger("oauth2_provider")
+log = logging.getLogger(__name__)
 
 
 def check_user_state_and_groups(user: User, app):
+    if user.is_superuser:
+        log.debug(f"{user} is SU allowing full access")
+        return
     group_access = True
     state_access = True
     if app.states.count():
-        print(
-            f"STATE User: {user.profile.state} APP: {print(app.states.all())}")
+        log.debug(
+            f"OAUTH STATE User: {user.profile.state} APP: {print(app.states.all())}")
         state_access = app.states.filter(name=user.profile.state).exists()
     if app.groups.count():
-        print(
-            f"GROUP User: {user.groups.all()} APP: {print(app.groups.all())}")
+        log.debug(
+            f"OAUTH GROUP User: {user.groups.all()} APP: {print(app.groups.all())}")
         group_access = app.groups.filter(name__in=user.groups.all()).exists()
 
     if not group_access or not state_access:
+        log.warning(
+            f"OAUTH {user} - {app} - Group: {group_access} State: {state_access}")
         raise PermissionDenied()
 
 
@@ -77,9 +82,12 @@ class AuthAuthorizationView(AuthorizationView):
                     check_user_state_and_groups(
                         request.user, resp.context_data['application'])
                 except PermissionDenied as e:
+                    log.Warning(
+                        f"OAUTH - {request.user} - {resp.context_data['application']} - Access Denied")
                     return render(request, "allianceauth_oidc/denied.html", context={"reason": f"{resp.context_data['application']} Access Denied", "error_code": "( 403 - Application Permission Denied )"})
             return resp
         else:
+            log.Warning(f"OAUTH - {request.user} - global - Access Denied")
             return render(request, "allianceauth_oidc/denied.html", context={"reason": "External OAuth Denied", "error_code": "( 403 - OAuth Permission Denied )"})
 
     def redirect(self, redirect_to, application):
