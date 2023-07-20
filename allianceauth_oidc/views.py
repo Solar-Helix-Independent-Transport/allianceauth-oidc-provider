@@ -82,12 +82,12 @@ class AuthAuthorizationView(AuthorizationView):
                     check_user_state_and_groups(
                         request.user, resp.context_data['application'])
                 except PermissionDenied as e:
-                    log.Warning(
+                    log.warning(
                         f"OAUTH - {request.user} - {resp.context_data['application']} - Access Denied")
                     return render(request, "allianceauth_oidc/denied.html", context={"reason": f"{resp.context_data['application']} Access Denied", "error_code": "( 403 - Application Permission Denied )"})
             return resp
         else:
-            log.Warning(f"OAUTH - {request.user} - global - Access Denied")
+            log.warning(f"OAUTH - {request.user} - global - Access Denied")
             return render(request, "allianceauth_oidc/denied.html", context={"reason": "External OAuth Denied", "error_code": "( 403 - OAuth Permission Denied )"})
 
     def redirect(self, redirect_to, application):
