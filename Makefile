@@ -7,7 +7,7 @@ help:
 	@echo "  clean      remove all old packages"
 	@echo "  test       run tests"
 	@echo "  deploy     Configure the PyPi config file in CI"
-	@echo "  package  Build the PyPi package"
+	@echo "  package	Build the PyPi package"
 
 clean:
 	rm -rf dist/*

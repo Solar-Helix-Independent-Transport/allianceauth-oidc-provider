@@ -89,12 +89,3 @@ class AuthAuthorizationView(AuthorizationView):
         else:
             log.warning(f"OAUTH - {request.user} - global - Access Denied")
             return render(request, "allianceauth_oidc/denied.html", context={"reason": "External OAuth Denied", "error_code": "( 403 - OAuth Permission Denied )"})
-
-    def redirect(self, redirect_to, application):
-        if application is None:
-            # The application can be None in case of an error during app validation
-            # In such cases, fall back to default ALLOWED_REDIRECT_URI_SCHEMES
-            allowed_schemes = oauth2_settings.ALLOWED_REDIRECT_URI_SCHEMES
-        else:
-            allowed_schemes = application.get_allowed_schemes()
-        return OAuth2ResponseRedirect(redirect_to, allowed_schemes)
