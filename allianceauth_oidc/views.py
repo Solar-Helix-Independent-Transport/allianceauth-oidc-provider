@@ -31,12 +31,13 @@ def check_user_state_and_groups(user: User, app):
     state_access = True
     if app.states.count():
         log.debug(
-            f"OAUTH STATE User: {user.profile.state} APP: {print(app.states.all())}")
+            f"OAUTH STATE User: {user.profile.state} APP: {app.states.all()}")
         state_access = app.states.filter(name=user.profile.state).exists()
     if app.groups.count():
         log.debug(
-            f"OAUTH GROUP User: {user.groups.all()} APP: {print(app.groups.all())}")
-        group_access = app.groups.filter(name__in=user.groups.all()).exists()
+            f"OAUTH GROUP User: {user.groups.all()} APP: {app.groups.all()}")
+        group_access = app.groups.filter(
+            name__in=user.groups.all().values_list('name', flat=True)).exists()
 
     if not group_access or not state_access:
         log.warning(

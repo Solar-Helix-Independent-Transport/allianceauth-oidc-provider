@@ -63,7 +63,7 @@ pkey = b'LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlKS1FJQkFBS0NBZ0VBc2Vmd1J
 OAUTH2_PROVIDER_APPLICATION_MODEL = 'allianceauth_oidc.AllianceAuthApplication'
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
-    "OIDC_RSA_PRIVATE_KEY": base64.b64decode(pkey),
+    "OIDC_RSA_PRIVATE_KEY": base64.b64decode(pkey).decode(),
     "OAUTH2_VALIDATOR_CLASS": "allianceauth_oidc.auth_provider.AllianceAuthOAuth2Validator",
     "SCOPES": {
         "openid": "openid",

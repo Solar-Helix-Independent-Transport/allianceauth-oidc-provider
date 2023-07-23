@@ -10,7 +10,7 @@ from oauth2_provider.models import (
     AbstractApplication, get_access_token_model, get_application_model,
 )
 
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Group, Permission
 from django.test import Client, RequestFactory, TestCase
 
 
@@ -142,3 +142,5 @@ class OIDCTestCase(TestCase):
 
         cls.factory = RequestFactory()
         cls.client = Client()
+
+        cls.test_grp = Group.objects.create(name="TestGroup")
