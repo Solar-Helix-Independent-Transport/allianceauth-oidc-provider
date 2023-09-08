@@ -65,7 +65,7 @@ class TokenView(OAuthLibMixin, View):
                 token = get_access_token_model().objects.get(token=access_token)
                 check_user_state_and_groups(token.user, token.application)
                 _body = None
-                if getattr(settings, "OIDC_DEBUG", False):
+                if token.application.debug_mode:
                     _body = body
                 app_authorized.send(
                     sender=self, request=request, token=token, body=_body)

@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 
 
 def debug_OIDC(sender, request, token, body, *args, **kwargs):
-    logger.warning(body)
+    if body:
+        logger.warning(body)
 
 
-if getattr(settings, "OIDC_DEBUG", False):
-    signals.app_authorized.connect(debug_OIDC)
+signals.app_authorized.connect(debug_OIDC)

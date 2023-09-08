@@ -34,11 +34,9 @@
                         <div class="panel-body">
                             <form id="authorizationForm" method="post">
                                 <div class="text-center">
-                                    <img class="rounded-border" width="128px" height="128px" style="margin-right: -15px" src="{{request.user.profile.main_character.portrait_url_256}}"/>
-                                    <i style="opacity:0.5;" class="fas fa-circle fa-sm"></i>
-                                    <i style="opacity:0.5;" class="fas fa-circle fa-sm"></i>
-                                    <i style="opacity:0.5;" class="fas fa-circle fa-sm"></i>
-                                    <img class="rounded-border" width="96px" height="96px" style="margin-left: -15px; opacity:0.5; padding:14px" src="/static/allianceauth/icons/favicon-96x96.png"/>
+                                    <img class="rounded-border" width="128px" height="128px" style="margin-right: -10px" src="{{request.user.profile.main_character.portrait_url_256}}"/>
+                                    <i style="opacity:0.5;" class="fa-solid fa-link fa-fw"></i>
+                                    <img class="rounded-border" width="128px" height="128px" style="margin-left: -10px" src="{{application.logo_url}}"/>
                                 </div>
                                 <h3 class="text-center">{{ application.name }} </h3>
                                 <p class="text-center">{% trans 'is requesting access to your Alliance Auth User data'%}</p>
