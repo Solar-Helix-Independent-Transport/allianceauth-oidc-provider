@@ -106,7 +106,7 @@ in auth create `Administrators` to give access to the full wiki admin site.
 
 Tested only with access no group mapping as yet
 
-**TODO** get the group links working
+Group>Team mapping requires Grafana cloud or Enterprise and is outside of the scope of this doc.
 
 #### /etc/grafana/grafana.ini
 
