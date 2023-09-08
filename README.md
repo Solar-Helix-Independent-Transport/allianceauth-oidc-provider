@@ -2,8 +2,6 @@
 
 ## Allianceauth OIDC Provider
 
-### Beta Testing ONLY!
-
 ## Features
 
 - OIDC / OAuth2
@@ -17,6 +15,10 @@
   - State access
   - group access
 
+## Example
+
+![Imgur](https://i.imgur.com/gcrFcRL.png)
+
 ## Setup/Install:
 
 1. `pip install allianceauth-oidc-provider`
@@ -29,33 +31,39 @@
 
 1. Extra Settings Required
 
-   ```python
-   OAUTH2_PROVIDER_APPLICATION_MODEL='allianceauth_oidc.AllianceAuthApplication'
-   OAUTH2_PROVIDER = {
-       "OIDC_ENABLED": True,
-       # https://django-oauth-toolkit.readthedocs.io/en/stable/oidc.html#creating-rsa-private-key
-       "OIDC_RSA_PRIVATE_KEY": os.environ.get('OIDC_RSA_PRIVATE_KEY'), ## Load your private key into an env variable
-       "OAUTH2_VALIDATOR_CLASS": "allianceauth_oidc.auth_provider.AllianceAuthOAuth2Validator",
-       "SCOPES": {
-          "openid": "User Profile",
-          "email": "Registered email",
-          "profile": "Main Character affiliation and Auth groups"
-       },
-       "PKCE_REQUIRED": False,
-       "APPLICATION_ADMIN_CLASS": "allianceauth_oidc.admin.ApplicationAdmin",
-       'ACCESS_TOKEN_EXPIRE_SECONDS': 60,
-       'REFRESH_TOKEN_EXPIRE_SECONDS': 24*60*60,
-       'ROTATE_REFRESH_TOKEN': True,
-   }
-   ```
+```python
 
-   Please see [this](https://django-oauth-toolkit.readthedocs.io/en/stable/oidc.html#creating-rsa-private-key) for more info on creating and managing a private key
+ # at the top of the file
+ from pathlib import Path
+
+ # Add these to the file further down
+OAUTH2_PROVIDER_APPLICATION_MODEL='allianceauth_oidc.AllianceAuthApplication'
+OAUTH2_PROVIDER = {
+"OIDC_ENABLED": True, # https://django-oauth-toolkit.readthedocs.io/en/stable/oidc.html#creating-rsa-private-key
+"OIDC_RSA_PRIVATE_KEY": Path("/path/to/key/file").read_text(), ## Load your private key
+"OAUTH2_VALIDATOR_CLASS": "allianceauth_oidc.auth_provider.AllianceAuthOAuth2Validator",
+"SCOPES": {
+"openid": "User Profile",
+"email": "Registered email",
+"profile": "Main Character affiliation and Auth groups"
+},
+"PKCE_REQUIRED": False,
+"APPLICATION_ADMIN_CLASS": "allianceauth_oidc.admin.ApplicationAdmin",
+'ACCESS_TOKEN_EXPIRE_SECONDS': 60,
+'REFRESH_TOKEN_EXPIRE_SECONDS': 24*60*60,
+'ROTATE_REFRESH_TOKEN': True,
+}
+```
+
+Please see [this](https://django-oauth-toolkit.readthedocs.io/en/stable/oidc.html#creating-rsa-private-key) for more info on creating and managing a private key
 
 1. Add the endpoints to your `urls.py`
 
-   ```
+```
+
        path('o/', include('allianceauth_oidc.urls', namespace='oauth2_provider')),
-   ```
+
+```
 
 1. run migrations
 1. restart auth
@@ -67,7 +75,7 @@
 - Authorization: `https://your.url/o/authorize/`
 - Token: `https://your.url/o/token/`
 - Profile: `https://your.url/o/userinfo/`
-- Issuer `http://your.url/o` **yes that is **http** not http**
+- Issuer `https://your.url/o`
 
 ### Claims
 
@@ -117,3 +125,17 @@ auth_url = https://your.url/o/authorize/
 token_url = https://your.url/o/token/
 api_url = https://your.url/o/userinfo/
 ```
+
+### Debugging an application
+
+1.  Enable _Debug Mode_ for the specific application in the auth admin site.
+1.  then in your `gunicorn.log` look for long lines similar to this after you attempt to log in,
+
+```
+[01/Jan/2099 00:00:05] WARNING [allianceauth_oidc.signals:12] {"access_token": "abcdefghijklmnopqrstuvwxyz", "expires_in": 60, "token_type": "Bearer", "scope": "openid profile email", "refresh_token": "abcdefghijklmnopqrstuvwxyz", "id_token": "long ass string here"}
+```
+
+1.  take the `id_token` field and paste it into https://jwt.io/ to debug the data being sent to the application. it should be fairly self explanitory expect for these 2 fields.
+
+- `iss` is the issuer that must match exactly in the applications own settings.
+- `sub` is your user id if you need to debug why user is being sent.
