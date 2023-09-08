@@ -10,6 +10,7 @@ from oauth2_provider.signals import app_authorized
 from oauth2_provider.views.base import AuthorizationView
 from oauth2_provider.views.mixins import OAuthLibMixin
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.core.exceptions import PermissionDenied
@@ -63,7 +64,11 @@ class TokenView(OAuthLibMixin, View):
             if access_token is not None:
                 token = get_access_token_model().objects.get(token=access_token)
                 check_user_state_and_groups(token.user, token.application)
-                app_authorized.send(sender=self, request=request, token=token)
+                _body = None
+                if getattr(settings, "OIDC_DEBUG", False):
+                    _body = body
+                app_authorized.send(
+                    sender=self, request=request, token=token, body=_body)
 
         response = HttpResponse(content=body, status=status)
 
@@ -73,7 +78,7 @@ class TokenView(OAuthLibMixin, View):
 
 
 class AuthAuthorizationView(AuthorizationView):
-    template_name = "oauth2_provider/authorize.html"
+    template_name = "allianceauth_oidc/authorize.html"
 
     def get(self, request, *args, **kwargs):
         if request.user.has_perm("allianceauth_oidc.access_oidc"):

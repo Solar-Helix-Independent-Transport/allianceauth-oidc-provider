@@ -1,9 +1,15 @@
+import logging
+
 from oauth2_provider import signals
 
+from django.conf import settings
 
-def check_access(sender, request, token, *args, **kwargs):
-    # TODO Check for access here
-    pass
+logger = logging.getLogger(__name__)
 
 
-signals.app_authorized.connect(check_access)
+def debug_OIDC(sender, request, token, body, *args, **kwargs):
+    logger.warning(body)
+
+
+if getattr(settings, "OIDC_DEBUG", False):
+    signals.app_authorized.connect(debug_OIDC)

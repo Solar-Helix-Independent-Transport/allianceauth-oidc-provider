@@ -1,40 +1,82 @@
-{% extends "oauth2_provider/base.html" %}
+{% extends "allianceauth/base.html" %}
 
 {% load i18n %}
+{% block page_title %}{{page_title}}{% endblock %}
+{% block extra_css %}
+<style>
+    .flex-container-main {
+        margin-top: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+    .flex-container-controls {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+    .rounded-border {
+        border-radius: 8px;
+    }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <div class="block-center">
-        {% if not error %}
-            <form id="authorizationForm" method="post">
-                <h3 class="block-center-heading">{% trans "Authorize" %} {{ application.name }}?</h3>
-                {% csrf_token %}
+    <div id="root">
+        <div id="app">
+            <div class="flex-container-main">
+                {% if not error %}
+                    <div class="">
+                        <div class="panel-body">
+                            <form id="authorizationForm" method="post">
+                                <div class="text-center">
+                                    <img class="rounded-border" width="128px" height="128px" style="margin-right: -15px" src="{{request.user.profile.main_character.portrait_url_256}}"/>
+                                    <i style="opacity:0.5;" class="fas fa-circle fa-sm"></i>
+                                    <i style="opacity:0.5;" class="fas fa-circle fa-sm"></i>
+                                    <i style="opacity:0.5;" class="fas fa-circle fa-sm"></i>
+                                    <img class="rounded-border" width="96px" height="96px" style="margin-left: -15px; opacity:0.5; padding:14px" src="/static/allianceauth/icons/favicon-96x96.png"/>
+                                </div>
+                                <h3 class="text-center">{{ application.name }} </h3>
+                                <p class="text-center">{% trans 'is requesting access to your Alliance Auth User data'%}</p>
+                                <p class="small text-center">Logged in as: <span class="label label-default">{{request.user.profile.main_character}} [ {{request.user.profile.main_character.corporation_ticker}} ]</span></p>
+                                <hr>
+                                {% csrf_token %}
 
-                {% for field in form %}
-                    {% if field.is_hidden %}
-                        {{ field }}
-                    {% endif %}
-                {% endfor %}
+                                {% for field in form %}
+                                    {% if field.is_hidden %}
+                                        {{ field }}
+                                    {% endif %}
+                                {% endfor %}
+                                    <p class="small text-bold text-center text-muted" style="text-transform: uppercase;">{% trans "The application is requesting the following" %}</p>
+                                    {% for scope in scopes_descriptions %}
+                                        <p><i class="fas fa-check-circle text-success" style="margin-right:10px"></i> {{ scope }}</p>
+                                    {% endfor %}
+                                    <!--<div class="flex-container-controls"><p><i class="fas fa-times-circle text-danger"></i></p><p>Characters and Alts</p></div>-->
+                                {{ form.errors }}
+                                {{ form.non_field_errors }}
+                                <hr>
 
-                <p>{% trans "Application requires the following permissions" %}</p>
-                <ul>
-                    {% for scope in scopes_descriptions %}
-                        <li>{{ scope }}</li>
-                    {% endfor %}
-                </ul>
+                                <p class="small text-muted"><i class="fas fa-link fa-fw" style="margin-right:10px"></i>{% trans 'You will be redirected back to the application after authorization' %}</p>
+                                <p class="small text-muted"><i class="fas fa-user-shield fa-fw" style="margin-right:10px"></i>{% trans 'This Application cannot access other data within Alliance Auth!' %}</p>
 
-                {{ form.errors }}
-                {{ form.non_field_errors }}
+                                <hr>
 
-                <div class="control-group">
-                    <div class="controls">
-                        <input type="submit" class="btn btn-large" value="{% trans 'Cancel' %}"/>
-                        <input type="submit" class="btn btn-large btn-primary" name="allow" value="{% trans 'Authorize' %}"/>
+                                <div class="flex-container-controls">
+                                        <input type="submit" class="btn btn-large btn-default" value="{% trans 'Cancel' %}"/>
+                                        <input type="submit" class="btn btn-large btn-info" name="allow" value="{% trans 'Authorize' %}"/>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </form>
-
-        {% else %}
-            <h2>Error: {{ error.error }}</h2>
-            <p>{{ error.description }}</p>
-        {% endif %}
+                {% else %}
+                    <h2>Error: {{ error.error }}</h2>
+                    <p>{{ error.description }}</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

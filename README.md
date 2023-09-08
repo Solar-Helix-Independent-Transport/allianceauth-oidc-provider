@@ -37,10 +37,10 @@
        "OIDC_RSA_PRIVATE_KEY": os.environ.get('OIDC_RSA_PRIVATE_KEY'), ## Load your private key into an env variable
        "OAUTH2_VALIDATOR_CLASS": "allianceauth_oidc.auth_provider.AllianceAuthOAuth2Validator",
        "SCOPES": {
-           "openid": "User Profile",
-           "email": "User email",
-           "profile": "Affiliations and Groups"
-           },
+          "openid": "User Profile",
+          "email": "Registered email",
+          "profile": "Main Character affiliation and Auth groups"
+       },
        "PKCE_REQUIRED": False,
        "APPLICATION_ADMIN_CLASS": "allianceauth_oidc.admin.ApplicationAdmin",
        'ACCESS_TOKEN_EXPIRE_SECONDS': 60,
