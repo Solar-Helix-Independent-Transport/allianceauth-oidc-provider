@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-13 18:46+1000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/allianceauth_oidc/authorize.html:42
+msgid "is requesting access to your Alliance Auth User data"
+msgstr ""
+
+#: templates/allianceauth_oidc/authorize.html:43
+msgid "Logged in as:"
+msgstr ""
+
+#: templates/allianceauth_oidc/authorize.html:52
+msgid "The application is requesting the following"
+msgstr ""
+
+#: templates/allianceauth_oidc/authorize.html:61
+msgid "You will be redirected back to the application after authorization"
+msgstr ""
+
+#: templates/allianceauth_oidc/authorize.html:62
+msgid "This Application cannot access other data within Alliance Auth!"
+msgstr ""
+
+#: templates/allianceauth_oidc/authorize.html:67
+msgid "Cancel"
+msgstr ""
+
+#: templates/allianceauth_oidc/authorize.html:68
+msgid "Authorize"
+msgstr ""
+
+#: templates/allianceauth_oidc/denied.html:66
+msgid "If you believe this is in error please contact the administrators."
+msgstr ""
+
+#: templates/allianceauth_oidc/denied.html:67
+msgid "This action has been logged"
+msgstr ""
+
+#: templates/allianceauth_oidc/logout_confirm.html:9
+msgid "Confirm Logout requested by"
+msgstr ""
+
+#: templates/allianceauth_oidc/logout_confirm.html:11
+msgid "Confirm Logout"
+msgstr ""
