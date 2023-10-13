@@ -6,9 +6,9 @@
         {% if not error %}
             <form id="authorizationForm" method="post">
                 {% if application %}
-                    <h3 class="block-center-heading">Confirm Logout requested by {{ application.name }}</h3>
+                    <h3 class="block-center-heading">{% translate "Confirm Logout requested by" %} {{ application.name }}</h3>
                 {% else %}
-                    <h3 class="block-center-heading">Confirm Logout</h3>
+                    <h3 class="block-center-heading">{% translate "Confirm Logout" %}</h3>
                 {% endif %}
                 {% csrf_token %}
 

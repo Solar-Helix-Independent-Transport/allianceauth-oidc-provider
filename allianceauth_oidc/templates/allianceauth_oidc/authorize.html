@@ -39,8 +39,8 @@
                                     <img class="rounded-border" width="128px" height="128px" style="margin-left: -10px" src="{{application.logo_url}}"/>
                                 </div>
                                 <h3 class="text-center">{{ application.name }} </h3>
-                                <p class="text-center">{% trans 'is requesting access to your Alliance Auth User data'%}</p>
-                                <p class="small text-center">Logged in as: <span class="label label-default">{{request.user.profile.main_character}} [ {{request.user.profile.main_character.corporation_ticker}} ]</span></p>
+                                <p class="text-center">{% translate 'is requesting access to your Alliance Auth User data'%}</p>
+                                <p class="small text-center">{% translate "Logged in as:" %} <span class="label label-default">{{request.user.profile.main_character}} [ {{request.user.profile.main_character.corporation_ticker}} ]</span></p>
                                 <hr>
                                 {% csrf_token %}
 
