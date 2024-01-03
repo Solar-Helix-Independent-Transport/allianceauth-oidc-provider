@@ -25,24 +25,39 @@ log = logging.getLogger(__name__)
 
 
 def check_user_state_and_groups(user: User, app):
+    """
+        Check a user for access to an application.
+        If there are no states or groups to check we pass.
+        If either State or Group is present, pass if either pass.
+    """
     if user.is_superuser:
         log.debug(f"{user} is SU allowing full access")
         return
-    group_access = True
-    state_access = True
-    if app.states.count():
+
+    _states = app.states.count()
+    _groups = app.groups.count()
+
+    group_access = False
+    state_access = False
+
+    if _states:
         log.debug(
             f"OAUTH STATE User: {user.profile.state} APP: {app.states.all()}")
         state_access = app.states.filter(name=user.profile.state).exists()
-    if app.groups.count():
+    elif not _states and not _groups:
+        state_access = True
+
+    if _groups:
         log.debug(
             f"OAUTH GROUP User: {user.groups.all()} APP: {app.groups.all()}")
         group_access = app.groups.filter(
             name__in=user.groups.all().values_list('name', flat=True)).exists()
+    elif not _states and not _groups:
+        group_access = True
 
-    if not group_access or not state_access:
+    if not (group_access or state_access):
         log.warning(
-            f"OAUTH {user} - {app} - Group: {group_access} State: {state_access}")
+            f"OAUTH - {user} - {app} - Group: {group_access} State: {state_access}")
         raise PermissionDenied()
 
 

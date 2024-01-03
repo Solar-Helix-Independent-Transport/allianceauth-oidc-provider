@@ -144,3 +144,4 @@ class OIDCTestCase(TestCase):
         cls.client = Client()
 
         cls.test_grp = Group.objects.create(name="TestGroup")
+        cls.test_grp_2 = Group.objects.create(name="TestGroup2")
