@@ -61,8 +61,8 @@ msgstr "Ця дія була занотована"
 
 #: templates/allianceauth_oidc/logout_confirm.html:9
 msgid "Confirm Logout requested by"
-msgstr ""
+msgstr "Підтвердження виходу було за запитом"
 
 #: templates/allianceauth_oidc/logout_confirm.html:11
 msgid "Confirm Logout"
-msgstr ""
+msgstr "Підтвердити вихід"
