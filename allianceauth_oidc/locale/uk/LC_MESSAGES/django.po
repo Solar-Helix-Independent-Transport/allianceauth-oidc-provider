@@ -52,6 +52,8 @@ msgstr "Авторизувати"
 #: templates/allianceauth_oidc/denied.html:66
 msgid "If you believe this is in error please contact the administrators."
 msgstr ""
+"Якщо ви вважаєте, що це помилково, будь ласка, зв'яжіться з "
+"адміністраторами."
 
 #: templates/allianceauth_oidc/denied.html:67
 msgid "This action has been logged"
