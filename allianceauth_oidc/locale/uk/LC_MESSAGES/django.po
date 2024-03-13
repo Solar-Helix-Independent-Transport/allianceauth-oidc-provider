@@ -57,7 +57,7 @@ msgstr ""
 
 #: templates/allianceauth_oidc/denied.html:67
 msgid "This action has been logged"
-msgstr ""
+msgstr "Ця дія була занотована"
 
 #: templates/allianceauth_oidc/logout_confirm.html:9
 msgid "Confirm Logout requested by"
