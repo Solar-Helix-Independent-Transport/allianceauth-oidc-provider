@@ -103,8 +103,8 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         self.assertIn("access_token", get_params)
         self.assertIn("refresh_token", get_params)
         self.assertIn("id_token", get_params)
-        self.assertEquals(scopes, get_params['scope'])
-        self.assertEquals(60, get_params['expires_in'])
+        self.assertEqual(scopes, get_params['scope'])
+        self.assertEqual(60, get_params['expires_in'])
 
     def test_full_chain_u1_with_perms_and_wrong_state(self):
         self.oauth_app.states.add(State.objects.get(name="Guest"))
@@ -123,7 +123,7 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         response = self.client.get('/o/authorize/', data=data)
         self.assertIn(f"{self.oauth_app} Access Denied",
                       response.content.decode("utf-8"))
-        self.assertEquals(200, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_full_chain_u1_with_perms_and_wrong_state_and_group(self):
         self.oauth_app.states.add(State.objects.get(name="Guest"))
@@ -160,8 +160,8 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         self.assertIn("access_token", get_params)
         self.assertIn("refresh_token", get_params)
         self.assertIn("id_token", get_params)
-        self.assertEquals(scopes, get_params['scope'])
-        self.assertEquals(60, get_params['expires_in'])
+        self.assertEqual(scopes, get_params['scope'])
+        self.assertEqual(60, get_params['expires_in'])
 
     def test_full_chain_u1_with_perms_and_group_and_state(self):
         self.oauth_app.groups.add(self.test_grp)
@@ -197,8 +197,8 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         self.assertIn("access_token", get_params)
         self.assertIn("refresh_token", get_params)
         self.assertIn("id_token", get_params)
-        self.assertEquals(scopes, get_params['scope'])
-        self.assertEquals(60, get_params['expires_in'])
+        self.assertEqual(scopes, get_params['scope'])
+        self.assertEqual(60, get_params['expires_in'])
 
     def test_full_chain_u1_with_perms_and_group(self):
         self.oauth_app.groups.add(self.test_grp)
@@ -233,8 +233,8 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         self.assertIn("access_token", get_params)
         self.assertIn("refresh_token", get_params)
         self.assertIn("id_token", get_params)
-        self.assertEquals(scopes, get_params['scope'])
-        self.assertEquals(60, get_params['expires_in'])
+        self.assertEqual(scopes, get_params['scope'])
+        self.assertEqual(60, get_params['expires_in'])
 
     def test_full_chain_u1_with_perms_and_wrong_group(self):
         self.oauth_app.groups.add(self.test_grp_2)
@@ -254,7 +254,7 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         response = self.client.get('/o/authorize/', data=data)
         self.assertIn(f"{self.oauth_app} Access Denied",
                       response.content.decode("utf-8"))
-        self.assertEquals(200, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_full_chain_u1_with_perms_and_wrong_group_and_state(self):
         self.oauth_app.states.add(State.objects.get(name="Member"))
@@ -290,8 +290,8 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         self.assertIn("access_token", get_params)
         self.assertIn("refresh_token", get_params)
         self.assertIn("id_token", get_params)
-        self.assertEquals(scopes, get_params['scope'])
-        self.assertEquals(60, get_params['expires_in'])
+        self.assertEqual(scopes, get_params['scope'])
+        self.assertEqual(60, get_params['expires_in'])
 
     def test_get_u1_without_perms_and_group_and_state(self):
         self.oauth_app.groups.add(self.test_grp)
@@ -311,7 +311,7 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         response = self.client.get('/o/authorize/', data=data)
         self.assertIn(f"{self.oauth_app} Access Denied",
                       response.content.decode("utf-8"))
-        self.assertEquals(200, response.status_code)
+        self.assertEqual(200, response.status_code)
 
     def test_full_chain_u1_with_su(self):
         # wrong state to test bypass for SU
@@ -348,5 +348,5 @@ class TestCorptoolsCharAccessPerms(OIDCTestCase):
         self.assertIn("access_token", get_params)
         self.assertIn("refresh_token", get_params)
         self.assertIn("id_token", get_params)
-        self.assertEquals(scopes, get_params['scope'])
-        self.assertEquals(60, get_params['expires_in'])
+        self.assertEqual(scopes, get_params['scope'])
+        self.assertEqual(60, get_params['expires_in'])
