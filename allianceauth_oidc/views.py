@@ -96,7 +96,6 @@ class AuthAuthorizationView(AuthorizationView):
             resp = super().get(request, *args, **kwargs)
             if hasattr(resp, 'context_data'):
                 try:
-                    raise PermissionDenied()
                     check_user_state_and_groups(
                         request.user, resp.context_data['application'])
                 except PermissionDenied as e:
