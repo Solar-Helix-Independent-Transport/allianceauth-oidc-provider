@@ -1,6 +1,7 @@
 """
 Alliance Auth Test Suite Django settings.
 """
+import base64
 
 from allianceauth.project_template.project_name.settings.base import *  # noqa
 
