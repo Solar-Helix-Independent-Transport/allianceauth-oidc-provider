@@ -3,12 +3,6 @@ from urllib.parse import parse_qs
 
 from allianceauth.authentication.models import State
 
-from django.contrib.sessions.middleware import SessionMiddleware
-from django.http import (
-    Http404, HttpResponse, HttpResponseBadRequest, HttpResponseRedirect,
-)
-
-from ..views import AuthorizationView, TokenView
 from . import OIDCTestCase
 
 

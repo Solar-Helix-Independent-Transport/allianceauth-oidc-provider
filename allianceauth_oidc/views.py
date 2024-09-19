@@ -1,18 +1,14 @@
 import json
 import logging
 
-from oauth2_provider.http import OAuth2ResponseRedirect
 from oauth2_provider.models import (
-    get_access_token_model, get_application_model,
+    get_access_token_model,
 )
-from oauth2_provider.settings import oauth2_settings
 from oauth2_provider.signals import app_authorized
 from oauth2_provider.views.base import AuthorizationView
 from oauth2_provider.views.mixins import OAuthLibMixin
 
-from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -100,6 +96,7 @@ class AuthAuthorizationView(AuthorizationView):
             resp = super().get(request, *args, **kwargs)
             if hasattr(resp, 'context_data'):
                 try:
+                    raise PermissionDenied()
                     check_user_state_and_groups(
                         request.user, resp.context_data['application'])
                 except PermissionDenied as e:

@@ -19,10 +19,10 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
-    "allianceauth>=3.3.0",
-    "django-oauth-toolkit>=3.0.1,<4.0.0",
-    "Pillow"
+    "allianceauth>=4.0.0",
+    "django-oauth-toolkit>=3.0.1,<4.0.0"
 ]
+
 dynamic = ["version", "description"]
 
 [project.urls]
