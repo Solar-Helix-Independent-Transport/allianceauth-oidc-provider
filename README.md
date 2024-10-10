@@ -1,4 +1,4 @@
-# allianceauth_oidc
+    # allianceauth_oidc
 
 ## Allianceauth OIDC Provider
 
@@ -75,7 +75,7 @@ Please see [this](https://django-oauth-toolkit.readthedocs.io/en/stable/oidc.htm
 - Authorization: `https://your.url/o/authorize/`
 - Token: `https://your.url/o/token/`
 - Profile: `https://your.url/o/userinfo/`
-- Issuer `https://your.url/o`
+- Issuer `https://your.url/o/`
 
 ### Claims
 
