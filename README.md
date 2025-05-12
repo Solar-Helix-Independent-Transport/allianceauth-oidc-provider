@@ -92,7 +92,7 @@ Please see [this](https://django-oauth-toolkit.readthedocs.io/en/stable/oidc.htm
 
 Before configuring the external application you want to go on your auth admin pannel at `/admin/allianceauth_oidc` and create a new alliance auth application.
 
-- `Client id` can be set to 1, this is a parameter for the upstream library not used in this application
+- `User` can be set to 1, this is a parameter for the upstream library not used in this application
 - `client type` should be confidential
 - `authorization grant type` should be `Authorization code`
 - `Client secret` needs to be saved somewhere **before** hitting save if you leave the hashing on (it won't be displayed again)
