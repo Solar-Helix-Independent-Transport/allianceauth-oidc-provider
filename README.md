@@ -88,6 +88,19 @@ Please see [this](https://django-oauth-toolkit.readthedocs.io/en/stable/oidc.htm
 - `groups` List of all groups with the members state thrown in too ( Profile Grant )
 - `sub` PK of user model
 
+### Create an application
+
+Before configuring the external application you want to go on your auth admin pannel at `/admin/allianceauth_oidc` and create a new alliance auth application.
+
+- `User` can be set to 1, this is a parameter for the upstream library not used in this application
+- `client type` should be confidential
+- `authorization grant type` should be `Authorization code`
+- `Client secret` needs to be saved somewhere **before** hitting save if you leave the hashing on (it won't be displayed again)
+- `Algorithm`: `RSA with SHA-2 256`
+
+Then you can set which states or group can access this application. \
+*Note that they will also need the `allianceauth_oidc.access_oidc` role to access any application.*
+
 ### WikiJS
 
 Manually create and groups you care for your users to have in the wiki and the service will map them for you. This greatly cuts down on group spam.
@@ -111,19 +124,22 @@ Group>Team mapping requires Grafana cloud or Enterprise and is outside of the sc
 #### /etc/grafana/grafana.ini
 
 ```ini
+[server]
+root_url = <URL of your grafana server>
+
 [auth.generic_oauth]
 enabled = true
-name = Your Site Name
+name = <Your Auth Name>
 allow_sign_up = true
-client_id = ******
-client_secret = *****
+client_id = <client id from the application>
+client_secret = <client secret from the application (unhashed)>
 scopes = openid,email,profile
 empty_scopes = false
 email_attribute_path = email
 name_attribute_path = name
-auth_url = https://your.url/o/authorize/
-token_url = https://your.url/o/token/
-api_url = https://your.url/o/userinfo/
+auth_url = https://<your.auth.url>/o/authorize/
+token_url = https://<your.auth.url>/o/token/
+api_url = https://<your.auth.url>/o/userinfo/
 ```
 
 ### Debugging an application
