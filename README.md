@@ -155,3 +155,9 @@ api_url = https://<your.auth.url>/o/userinfo/
 
 - `iss` is the issuer that must match exactly in the applications own settings.
 - `sub` is your user id if you need to debug why user is being sent.
+
+If you want to check the token signature on jwt.io and lost your public key your can use:
+```sh
+ ssh-keygen -y -e -m pem -f /path/to/key/file
+```
+This will output the public key in the PEM format for jwt.io to check the signature.
