@@ -6,9 +6,7 @@ from allianceauth.tests.auth_utils import AuthUtils
 from oauth2_provider.generators import (
     generate_client_id, generate_client_secret,
 )
-from oauth2_provider.models import (
-    AbstractApplication, get_access_token_model, get_application_model,
-)
+from oauth2_provider.models import get_application_model
 
 from django.contrib.auth.models import Group, Permission
 from django.test import Client, RequestFactory, TestCase
