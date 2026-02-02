@@ -2,6 +2,7 @@ import json
 import logging
 from typing import Any
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpRequest, HttpResponse, HttpResponseBase
 from django.shortcuts import render
@@ -105,6 +106,7 @@ class TokenView(OAuthLibMixin, View):
         return response
 
 
+@method_decorator(login_required, name="dispatch")
 class AuthAuthorizationView(AuthorizationView):
     template_name = "allianceauth_oidc/authorize.html"
 
@@ -139,6 +141,7 @@ class AuthAuthorizationView(AuthorizationView):
                 "reason": reason,
                 "error_code": f"(403 - {error_message})",
             },
+            status=403,
         )
 
     def dispatch(
