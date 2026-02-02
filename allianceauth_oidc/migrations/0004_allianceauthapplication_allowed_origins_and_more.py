@@ -6,23 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('allianceauth_oidc', '0003_remove_allianceauthapplication_logo_and_more'),
+        (
+            "allianceauth_oidc",
+            "0003_remove_allianceauthapplication_logo_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='allianceauthapplication',
-            name='allowed_origins',
-            field=models.TextField(blank=True, default='', help_text='Allowed origins list to enable CORS, space separated'),
+            model_name="allianceauthapplication",
+            name="allowed_origins",
+            field=models.TextField(
+                blank=True,
+                default="",
+                help_text="Allowed origins list to enable CORS, space separated",  # noqa E501
+            ),
         ),
         migrations.AddField(
-            model_name='allianceauthapplication',
-            name='hash_client_secret',
+            model_name="allianceauthapplication",
+            name="hash_client_secret",
             field=models.BooleanField(default=True),
         ),
         migrations.AlterField(
-            model_name='allianceauthapplication',
-            name='post_logout_redirect_uris',
-            field=models.TextField(blank=True, default='', help_text='Allowed Post Logout URIs list, space separated'),
+            model_name="allianceauthapplication",
+            name="post_logout_redirect_uris",
+            field=models.TextField(
+                blank=True,
+                default="",
+                help_text="Allowed Post Logout URIs list, space separated",
+            ),
         ),
     ]

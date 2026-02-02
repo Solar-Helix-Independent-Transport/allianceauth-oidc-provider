@@ -1,24 +1,27 @@
 """
 Alliance Auth Test Suite Django settings.
 """
-import base64
 
-from allianceauth.project_template.project_name.settings.base import *  # noqa
+from pathlib import Path
+
+from allianceauth.project_template.project_name.settings.base import *  # noqa F403
 
 SITE_URL = "https://example.com"
 CSRF_TRUSTED_ORIGINS = [SITE_URL]
 
+ALLIANCEAUTH_DASHBOARD_TASK_STATISTICS_DISABLED = True
+
 # Celery configuration
-CELERY_ALWAYS_EAGER = True  # Forces celery to run locally for testing
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_TASK_EAGER_PROPAGATES = True
+CELERY_BROKER_URL = "memory://"
+CELERY_RESULT_BACKEND = "cache+memory://"
 
-INSTALLED_APPS += [
-    'allianceauth_oidc',
-    'oauth2_provider'
-]
+INSTALLED_APPS += ["allianceauth_oidc", "oauth2_provider"]  # type: ignore[name-defined] # noqa F405
 
-ROOT_URLCONF = 'tests.urls'
+ROOT_URLCONF = "tests.urls"
 
-NOSE_ARGS = [
+NOSE_ARGS: list[str] = [
     # '--with-coverage',
     # '--cover-package=',
     # '--exe',  # If your tests need this to be found/run, check they py files are not chmodded +x
@@ -26,7 +29,7 @@ NOSE_ARGS = [
 
 
 PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.MD5PasswordHasher',
+    "django.contrib.auth.hashers.MD5PasswordHasher",
 ]
 
 # LOGGING = None  # Comment out to enable logging for debugging
@@ -36,42 +39,31 @@ PASSWORD_HASHERS = [
 # to https://example.com/sso/callback substituting your domain for example.com
 # Logging in to auth requires the publicData scope (can be overridden through the
 # LOGIN_TOKEN_SCOPES setting). Other apps may require more (see their docs).
-ESI_SSO_CLIENT_ID = '123'
-ESI_SSO_CLIENT_SECRET = '123'
-ESI_SSO_CALLBACK_URL = '123'
+ESI_SSO_CLIENT_ID = "123"
+ESI_SSO_CLIENT_SECRET = "123"  # nosec B105
+ESI_SSO_CALLBACK_URL = "123"
 ESI_USER_CONTACT_EMAIL = "email@dummy.com"
 
 CACHES = {
     "default": {
-        # "BACKEND": "redis_cache.RedisCache",
-        # "LOCATION": "localhost:6379",
-        # "OPTIONS": {
-        #    "DB": 1,
-        # }
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379/1",
-        "OPTIONS": {
-            "COMPRESSOR": "django_redis.compressors.lzma.LzmaCompressor",
-        }
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "allianceauth-oidc-test-cache",
     }
 }
 
-# This is a testing only key and not hooked up to anything so dont even bother...
-pkey = b'LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlKS1FJQkFBS0NBZ0VBc2Vmd1JuTTlneGgzbDBxekxrWThYQzZSdzZpS29sS2dDci9QM1ZURU9xb2FPa0xnCjFlRy9zSzlVSFI2Q1hxQy9obzhwbTJjNzRaMUM3QytxMXRZSThveXd3NEVTcHdSZUNZY2RJcWdLSFh3QzJ3UWoKa1hZekFCamVMT3F4YSs3NG0wV2dlVXB3S3lIWDc5bzJBc2ErQlphTi85SzNaQUNDMVh0MzFhZ1pwVURyT0pSbQpZRkQ3M3ZlMHcvUjJGbTVjY040Uml4azMwL2tEUXRxVUJvSzRZNTB5a3FCV1prMzFVM3k2Z21hbGNYdWtkd2pWClNJMXVGcWNQRWNuRnVVdzhmdVY2OVJDM0NkbkNmbm96MWRTaVZYdXplOWJDMHZIbUV0WDJhcXAxQzcwTnNKUUQKVmpYMnFOVER5QkVJd2paeWZYQksyYldTaEdzcEdXWU1nd1JWbjkvcDZhWHBMQVdGbEVwekI1ckNFS2xkR0pRSQo1ZHJ5OTZrZXVoSTdBK1N5NVoyWTF0UG9jOENvdXRZbkFzQmFWd2w1bVFrc244RE43K0xDakh1NmJZamczNzF3CjZqMEg0Zng4SnRHRGlQRzVSQVJSTHdnSmtvV2syYitldFE1NHllTHJQT3c1a3ViR05jeStnMXVVcU83aFA4aTQKeUx6YjZ0Y3ZVd3U2dHpCbUNQT0pjYW5NQU5MMER3NFRJR1hqeXJDdUUzZGNBSW9DcVVKOEp3eU55OUtDRmNKLwplWUt6VXRuR1h3VjViQ29XRFFsem82VTI5b0NLZmRFNVdNOXR6V0V3aDgvMFNXbUlLZXVQZllDTVBOdW54eWF2ClN3NVpUR2JQRGJCMHVaMm8vdkc5NTZqYVpKZEFFZXZoM1dXWll0V3E3d2JQZS9KTWI1VEp5aDBoUnFjQ0F3RUEKQVFLQ0FnQVBkd3NUQkxlSEt0eFNnWUxiOWUwUFVsa0hlaUk3QkJXM2VYOFhUV1FWZVczNFBKSVE1YVBsTndpSAowM3dmdjdlR2VmRnkrZUZodG1yMzN4anB2Z2RmRmszVFlPZi9Mc2tCNlFYbVdsY3V3dlg0bGY2RmlaSGJZMDRFCjk0M2V4UkpGWlNNVENCNkNFVm9WRnBIMVlkTm81dktIRjRrcm4wUEFUUkJZdVZrcFhXQlZOY2xFZkNXNDl5MTIKajB5b25JVmFwbU0rQlQ0dUpncGJpR2F2dmpOTExZSVU3dTB6elhrUy9kZTB1RG1QaU9EK0cvMTJaaHo0eVNMdApOKzRCTXBoYnE1VXBzbjlHMHZBdVVHOHJHbVhXS24rcXR6dU9YTXJVUGxkQ1pIanlRVWZzWHFGL29BZEdHK0M5CkJvWU5ZL0JGNlRvSWZOazB1NkFCL2pYK09hVTdzSGVZd1ptRHByb0lTMUFXNEVJRktiRld3SjRvM2tia2RkWkUKM0pjOW5oZ0JBYi83ZVV2andnNkdtMUpCYlYxd0RML3JpU0xmNnVkdCtwQlpCTUVZUG1PeStSMGlLeVBlRWZYTgpZaDg3Nks4U25kZ21laFY4cWlraGM1azZxV0FKOFVKRDB0dlBwWFltdHAzVko1R01nOUwxVEJiOGpGbU9pMGdaCnBhalZNM2h5Q3pQTnpJNDVSRTF3WSswVmp4cndyYis3R0lnTVZmV2Vzam1HQ3ErZTkramI2bEhlS3VRODdBdEoKbDNvM3cwa0Q2N1VISHM0aW5uTlBxUC9ISGdtZGxMaGQ0NlFGSTc1b0JmVllHb2FxYUJOMVVOWjVYa0ZMN0NCUApRUTRMR2I5Q3IrdVVRTmc3d3R1MUlqeXhQbGUwWEN0eVNJOXowRnlkWlE4NER3bHVjUUtDQVFFQTNuMVJ5UHlhClc0UDEwUzF5dVN3d09UbFJJWDAvYkFmK3NCQXg1YnMxQkdmWVZpaUxjdFVUUnd6WGNEY2RTdThtOVZTaEpJRjUKclRaNlIzbXNnWHNEWW1COVZFQ1ArY2NGa1NvQ05iNmhWdU1INWMrM1U4bGQ1cHNDY3BOQzA1NGJlK1RONmZwZwplbCt0WlhlK0tQWXRneGVsWDVkVW1PemQ0V1U5UUVBWWswaEFiL1dHMVp1NGpiVjVSS29NNVFreGxMemZGWkNjCnRIallnVVU4MUNIRHhOcGVHaFJOOXh3MThFdlJDVXNWeTlLQmhYTVhHaDUxTW13U1dpRkVjKzZJVWJkTmh2UkUKOCtqYSszdWo2ZVBaa1RLeXVhUXBENG0yRGpiUXpGS0s2ZzRIL2VsTmpnUVZqRVhNY2RVS0Z5LzFvYnE0aTY0cQoxNjF1dU1wUWdMS0ZpUUtDQVFFQXpMT1UrbTlTUDZnOWs0ckdRQXVpaDN2ZzRoU1h6em52MFc5NDV1T09kOG9KClNuTXBDUjZuUUdTSzFocDJRbUNuZHd5OEs3MGU1WS9IMXZIbDBJckZ0VVA1WjI1OGZka2pzZ0xGVFlJSjVRYmoKRDFQdTNSbGtaMnE5aFJnYlFIQ1N3T00rdmZYdHY4UUpZVWFDenpCdUplK1JqbDZzTkk0c2JDcW4yUEF0b1pTMApuNGpvYmx6ZDRpeUkzNjFtNVZwbjFCSTlULzVPOEViM1hKZlVhc1B4RVRaOG1xSVBWaGtxZUZJVmJyc3pZcTF6CklMMnhMSEw4ckVOREpNdno3QVhxT3RiTlJTOUJSTFVjM04rV01NRGhod2w4VGZVUFcrN21VQ0xrbnQrM0YyL08KZ0lOT0dXQ1lKa2NST0FDSlM1Vk1JcnlQb2pEN2plaE9CMnhrK1ZhT3J3S0NBUUFjSDRNakFLc1NQay9vTFBKLwpiWko2NlQvVUY5ellidnBHandWL29IWkhKRWs0T3MvRnFDRlRyYy9kbzFuVWl2NUZySGppQUd1ODlWSG5qdjI3Ck1DMXhWZmtCbVZlWm53cVpHdEpFc04vNzk1NmI4ZkdlYWFtdzZJOGFwSHFoL1M1RUx0dklZNW1tWGttd3RiNFgKdDJaeFY1L1R3WEUwRTF6SWpOOTlLNXp2b1Faa0lJajJuMFJveFRPYTlsUEM3N0tRdG44TVhzY3dHTVpsTUxkTApxU2p4elJodisza1BiMFZ5Sm1NNTVYL1B6OEFIZWxERlFHeFgvMGtpazJudnJZc1ZxVEhuaVNEZUkrVHFQT3F2Ck9kbmFmS29TeFNsYmlYQzF3MEFKVTdXemVDcVNjZGNYeUhSZzBzSFE4YmpnelhNakNsTWhkTlo5aExLbU1ReVQKOS96aEFvSUJBUURKS201czBudWN6V1IrRzNJS3ZLUmp5dXpNb1Bvemp6ZEx0ZVcxMmNsSGxZZ2QzeUJqc3ZrZwpnZTRpekd5TmZOajJXTkNQbDFMR3ZNN2lRR1RkMVpMSU9WM2ZOS2dwTVB3d1V5SzhzZCt4Y0Z3eDB3VTV5VnR2CmVtbDNZNkpjYUlVQUJCTERzZXlNZVVYU2orMjdXVmZWOWlJd0xIL0ZRamNMc2J1enFRemU3dm0ya21BQkhVaDgKbmRHQko3S29FSGxhNHZYWUtBNUJlU3hjbFdVTjZ6TjcrL1RtTGY4dVdKcnhGWkcwZVVuZFhxRjJlcFNrSHZpSwovYXI5ZldWZi9Nd2NPTDRQa0ludTBLSGx1ZUNxVnRNTDF0bU83eGJCL1B2Zm92clQydnplam1UOHpJMHl5VWVjCnpsaHdsYTVYVmdnMVZ1TTh2REJxVy9KYXZ6NVgvcVZIQW9JQkFRQ3grclFvRTdPRlV5OFNRb1pGVC9ybGZVQk0KV2ZnbUNLbXV6OFFIeW5aL1NsdEFiQS9weG5HTlcvOXRmTVlCMGtxN0l6dlQ2YUwxdmp2NHp2bHFGQ1pPZUpNUApyYXJoREhoZ01UZElyYWRNT1pnUjZxdlYrM3cvMHVFUDZvQ2N1aFdkekZKMFhXOE85UVZKVlN4K0NYdTRseWxGCklhbFBVdkpnalU0aUh3NFBUaUYwWXhoWVNYYXhaeHovZE9PcGdZQUVWWndveW10c1RQT1BqeXUySkppb0lsSVQKai9oeTNmODlNcnhCSmtadEtxNVVTUkdmSi9kR1dYQVJrSGhoaldlR3JocWdVUUlGT0NnUTVlS3puNTBVcEo5cApuMVdjeUJMVzVHdS9kanU0aTVmaGtQMU5MTHlwNWFQUFFLN2hrVyt2d2xaNUcxVzBlUm5KYldwSlZpRVIKLS0tLS1FTkQgUlNBIFBSSVZBVEUgS0VZLS0tLS0K'
-pkey = pkey.decode('utf-8')
-OAUTH2_PROVIDER_APPLICATION_MODEL = 'allianceauth_oidc.AllianceAuthApplication'
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+OAUTH2_PROVIDER_APPLICATION_MODEL = "allianceauth_oidc.AllianceAuthApplication"
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
-    "OIDC_RSA_PRIVATE_KEY": base64.b64decode(pkey).decode(),
+    "OIDC_RSA_PRIVATE_KEY": Path(
+        Path(__file__).parent / "oidc-test.key"
+    ).read_text(),
     "OAUTH2_VALIDATOR_CLASS": "allianceauth_oidc.auth_provider.AllianceAuthOAuth2Validator",
-    "SCOPES": {
-        "openid": "openid",
-        "email": "email",
-        "profile": "profile"
-    },
+    "SCOPES": {"openid": "openid", "email": "email", "profile": "profile"},
     "PKCE_REQUIRED": False,
     "APPLICATION_ADMIN_CLASS": "allianceauth_oidc.admin.ApplicationAdmin",
-    'ACCESS_TOKEN_EXPIRE_SECONDS': 60,
-    'REFRESH_TOKEN_EXPIRE_SECONDS': 7*24*60*60,
-    'ROTATE_REFRESH_TOKEN': True,
+    "ACCESS_TOKEN_EXPIRE_SECONDS": 60,
+    "REFRESH_TOKEN_EXPIRE_SECONDS": 7 * 24 * 60 * 60,
+    "ROTATE_REFRESH_TOKEN": True,  # nosec B105
 }

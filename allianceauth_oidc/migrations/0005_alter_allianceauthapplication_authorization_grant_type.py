@@ -5,7 +5,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("allianceauth_oidc", "0004_allianceauthapplication_allowed_origins_and_more"),
+        (
+            "allianceauth_oidc",
+            "0004_allianceauthapplication_allowed_origins_and_more",
+        ),
     ]
 
     operations = [
@@ -15,7 +18,10 @@ class Migration(migrations.Migration):
             field=models.CharField(
                 choices=[
                     ("authorization-code", "Authorization code"),
-                    ("urn:ietf:params:oauth:grant-type:device_code", "Device Code"),
+                    (
+                        "urn:ietf:params:oauth:grant-type:device_code",
+                        "Device Code",
+                    ),
                     ("implicit", "Implicit"),
                     ("password", "Resource owner password-based"),
                     ("client-credentials", "Client credentials"),

@@ -6,18 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('allianceauth_oidc', '0001_initial'),
+        ("allianceauth_oidc", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='allianceauthapplication',
-            options={'permissions': [
-                ('access_oidc', 'Can Authenticate External Apps with OIDC')]},
+            name="allianceauthapplication",
+            options={
+                "permissions": [
+                    ("access_oidc", "Can Authenticate External Apps with OIDC")
+                ]
+            },
         ),
         migrations.AddField(
-            model_name='allianceauthapplication',
-            name='active',
+            model_name="allianceauthapplication",
+            name="active",
             field=models.BooleanField(default=True),
         ),
     ]

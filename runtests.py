@@ -1,20 +1,36 @@
 #!/usr/bin/env python
+import os
 import sys
+from contextlib import nullcontext
+
+USE_FAKE_REDIS = os.getenv("AA_USE_FAKE_REDIS", "1") == "1"
+
+cm = nullcontext()
+
+if USE_FAKE_REDIS:
+    from unittest.mock import patch
+
+    import fakeredis
+
+    _fake_server = fakeredis.FakeServer()
+
+    class AACompatFakeRedis(fakeredis.FakeRedis):
+        def info(self, *args, **kwargs):
+            return {"redis_version": "7.4.0"}
+
+    def _fake_get_redis_connection(
+        alias="default", write=True, *args, **kwargs
+    ):
+        return AACompatFakeRedis(server=_fake_server)
+
+    cm = patch(
+        "django_redis.get_redis_connection", new=_fake_get_redis_connection
+    )
+
 
 if __name__ == "__main__":
-    try:
-        from django.core.management import execute_from_command_line
-    except ImportError:
-        # The above import may fail for some other reason. Ensure that the
-        # issue is really that Django is missing to avoid masking other
-        # exceptions on Python 2.
-        try:
-            import django  # noqa: F401
-        except ImportError:
-            raise ImportError(
-                "Couldn't import Django. Are you sure it's installed and "
-                "available on your PYTHONPATH environment variable? Did you "
-                "forget to activate a virtual environment?"
-            )
-        raise
-    execute_from_command_line(sys.argv.insert(1, "test"))
+    from django.core.management import execute_from_command_line
+
+    with cm:
+        sys.argv.insert(1, "test")
+        execute_from_command_line(sys.argv)
