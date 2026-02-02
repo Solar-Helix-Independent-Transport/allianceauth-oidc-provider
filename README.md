@@ -218,3 +218,17 @@ ssh-keygen -y -e -m pem -f /path/to/key/file
 ```
 
 This will output the public key in the PEM format for jwt.io to check the signature.
+
+> [!NOTE]
+> If you are using a custom theme (or have overridden the public login template),
+> please double-check your login page template at:
+> `authentication/templates/public/login.html`
+> Make sure the SSO login link URL-encodes the next parameter.
+> Otherwise, query parameters can be truncated and OAuth/OIDC
+> flows may fail (e.g. missing client_id after redirect).
+>
+> ```html
+> <a
+>   href="{% url 'auth_sso_login' %}{% if request.GET.next %}?next={{ request.GET.next | urlencode }}{% endif %}"
+> ></a>
+> ```
