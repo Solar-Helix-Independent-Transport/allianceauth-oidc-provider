@@ -20,7 +20,8 @@ classifiers = [
 ]
 dependencies = [
     "allianceauth>=4.0.0",
-    "django-oauth-toolkit>=3.2.0,<4.0.0"
+    ## Pin due to the migration issues that keep popping up, monitor weekly.
+    "django-oauth-toolkit==3.4.0"
 ]
 
 dynamic = ["version", "description"]
