@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# mrCabez, 2026
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-29 14:33+1000\n"
+"PO-Revision-Date: 2023-10-13 08:54+0000\n"
+"Last-Translator: mrCabez, 2026\n"
+"Language-Team: Italian (Italy) (https://app.transifex.com/alliance-auth/teams/107430/it_IT/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it_IT\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/authorize.html:42
+msgid "is requesting access to your Alliance Auth User data"
+msgstr "sta richiedendo l'accesso ai tuoi dati utente di Alliance Auth"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/authorize.html:43
+msgid "Logged in as:"
+msgstr "Accesso effettuato come:"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/authorize.html:52
+msgid "The application is requesting the following"
+msgstr "L'applicazione richiede quanto segue"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/authorize.html:61
+msgid "You will be redirected back to the application after authorization"
+msgstr "Dopo l'autorizzazione verrai reindirizzato all'applicazione"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/authorize.html:62
+msgid "This Application cannot access other data within Alliance Auth!"
+msgstr "Questa applicazione non può accedere ad altri dati di Alliance Auth!"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/authorize.html:67
+msgid "Cancel"
+msgstr "Annulla"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/authorize.html:68
+msgid "Authorize"
+msgstr "Autorizza"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/denied.html:65
+msgid "If you believe this is in error please contact the administrators."
+msgstr "Se ritieni che si tratti di un errore, contatta gli amministratori."
+
+#: allianceauth_oidc/templates/allianceauth_oidc/denied.html:67
+msgid "This action has been logged"
+msgstr "Questa azione è stata registrata"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/logout_confirm.html:9
+msgid "Confirm Logout requested by"
+msgstr "Conferma la disconnessione richiesta da"
+
+#: allianceauth_oidc/templates/allianceauth_oidc/logout_confirm.html:11
+msgid "Confirm Logout"
+msgstr "Conferma disconnessione"
